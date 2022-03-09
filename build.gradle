@@ -11,7 +11,7 @@ plugins {
 group = 'org.eclipse.graphene'
 version = '3.1'
 sourceCompatibility = '17'
-println 'build revision: '+versioning.info.full
+println 'build revision: '+versioning.info.full+versioning.info.dirty
 
 
 
@@ -48,11 +48,34 @@ jar {
 	}
 }
 
+task copyTask(type: Copy) {
+	dependsOn bootJar
+	from 'deploy'
+	from 'docs/deployment-readme.txt'
+	from "${buildDir}/libs"
+	into 'build/docker'
+}
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
 
-dockerCreateDockerfile {
-	from('openjdk:17-slim')
+import com.bmuschko.gradle.docker.tasks.image.*
+
+task createPlaygroundDockerfile(type: Dockerfile) {
+	dependsOn copyTask
+	from 'openjdk:17-slim'
+	addFile "private/kubernetes-client-script.py", "/home/deploy/private/kubernetes-client-script.py"
+	addFile "deployment-readme.txt", "/home/docs/deployment-readme.txt"
+	addFile "private/orchestrator_client/orchestrator_client.py", "/home/deploy/private/orchestrator_client/orchestrator_client.py"
+	addFile "private/orchestrator_client/orchestrator_pb2_grpc.py", "/home/deploy/private/orchestrator_client/orchestrator_pb2_grpc.py"
+	addFile	"private/orchestrator_client/orchestrator_pb2.py", "/home/deploy/private/orchestrator_client/orchestrator_pb2.py"
+	addFile	"private/protobuf/orchestrator.proto", "/home/deploy/private/protobuf/orchestrator.proto"
+	addFile	"private/requirements.txt", "/home/deploy/private/requirements.txt"
+	addFile "${project.name}-${project.version}.jar", "maven/${project.name}-${project.version}.jar"
+}
+
+task createPlaygoundImage(type: DockerBuildImage) {
+	dependsOn createPlaygroundDockerfile
+	images.add("${project.group}/${project.name}:${project.version}")
 }
