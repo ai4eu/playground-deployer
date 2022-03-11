@@ -35,11 +35,12 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-jar {
+bootJar {
 	manifest {
 		attributes(
 				'Built-By'       : System.properties['user.name'],
 				'Build-Timestamp': new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date()),
+				'Build-Version'  : project.version,
 				'Build-Revision' : versioning.info.full,
 				'Created-By'     : "Gradle ${gradle.gradleVersion}",
 				'Build-Jdk'      : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
@@ -65,13 +66,13 @@ import com.bmuschko.gradle.docker.tasks.image.*
 task createPlaygroundDockerfile(type: Dockerfile) {
 	dependsOn copyTask
 	from 'openjdk:17-slim'
-	addFile "private/kubernetes-client-script.py", "/home/deploy/private/kubernetes-client-script.py"
-	addFile "deployment-readme.txt", "/home/docs/deployment-readme.txt"
-	addFile "private/orchestrator_client/orchestrator_client.py", "/home/deploy/private/orchestrator_client/orchestrator_client.py"
-	addFile "private/orchestrator_client/orchestrator_pb2_grpc.py", "/home/deploy/private/orchestrator_client/orchestrator_pb2_grpc.py"
-	addFile	"private/orchestrator_client/orchestrator_pb2.py", "/home/deploy/private/orchestrator_client/orchestrator_pb2.py"
-	addFile	"private/protobuf/orchestrator.proto", "/home/deploy/private/protobuf/orchestrator.proto"
-	addFile	"private/requirements.txt", "/home/deploy/private/requirements.txt"
+	addFile "private/kubernetes-client-script.py", "/maven/home/deploy/private/kubernetes-client-script.py"
+	addFile "deployment-readme.txt", "/maven/home/docs/deployment-readme.txt"
+	addFile "private/orchestrator_client/orchestrator_client.py", "/maven/home/deploy/private/orchestrator_client/orchestrator_client.py"
+	addFile "private/orchestrator_client/orchestrator_pb2_grpc.py", "/maven/home/deploy/private/orchestrator_client/orchestrator_pb2_grpc.py"
+	addFile	"private/orchestrator_client/orchestrator_pb2.py", "/maven/home/deploy/private/orchestrator_client/orchestrator_pb2.py"
+	addFile	"private/protobuf/orchestrator.proto", "/maven/home/deploy/private/protobuf/orchestrator.proto"
+	addFile	"private/requirements.txt", "/maven/home/deploy/private/requirements.txt"
 	addFile "${project.name}-${project.version}.jar", "maven/${project.name}-${project.version}.jar"
 }
 
