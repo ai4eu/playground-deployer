@@ -76,7 +76,7 @@ task createPlaygroundDockerfile(type: Dockerfile) {
 	addFile "${project.name}-${project.version}.jar", "maven/${project.name}-${project.version}.jar"
 }
 
-task createPlaygoundImage(type: DockerBuildImage) {
+task createPlaygroundImage(type: DockerBuildImage) {
 	dependsOn createPlaygroundDockerfile
 	images.add("${project.group}/${project.name}:${project.version}")
 }
