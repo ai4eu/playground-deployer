@@ -76,11 +76,23 @@ task createPlaygroundDockerfile(type: Dockerfile) {
 	addFile "${project.name}-${project.version}.jar", "maven/${project.name}-${project.version}.jar"
 }
 
+def image_list = []
+
 task createPlaygroundImage(type: DockerBuildImage) {
 	dependsOn createPlaygroundDockerfile
 	if(System.properties['docker.push.registry']) {
 		images.add("${System.properties['docker.push.registry']}/${project.group}/${project.name}:${project.version}")
 	} else {
 		images.add("${project.group}/${project.name}:${project.version}")
+	}
+	image_list = images
+}
+
+task pushPlaygroundImage(type: DockerPushImage) {
+	dependsOn createPlaygroundImage
+	images = image_list
+	registryCredentials {
+		username = System.properties['docker.username']
+		password = System.properties['docker.password']
 	}
 }
