@@ -1,4 +1,4 @@
-# playground-deployer
+# Playground-Deployer
 
 ## Introduction
 The architecture of AI4EU Experiments is designed to support the integration of many different 
@@ -57,7 +57,7 @@ Moreover, the playground deployer contains a python script to finish the local d
 
 The Playground deployer assumes a new namespace for each pipeline.
 
-## Proessing for a single model
+## Processing for a single model
 
 For a single model, the docker image URL is read from the database and exactly one service.yaml and one deployment.yaml is created.
 
