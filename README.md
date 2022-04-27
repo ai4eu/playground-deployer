@@ -21,9 +21,14 @@ A deployment service must take the following cases into account:
 * the solution can be a pipeline
 * the pipeline can contain a shared folder node
 
+![image](docs/images/deployer-architecture.png)
+
 A deployment service can be composed of two parts: the first running internally in the
 AI4EU Experiments cluster and the second part runs on the target execution system to
 finish the deployment and start the actual execution.
+
+![image](docs/images/new-deployer-service.png)
+
 
 ## Input parameters
 Each deployment service is called with the following input parameters:

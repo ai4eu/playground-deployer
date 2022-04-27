@@ -788,7 +788,7 @@ public class KubeServiceImpl implements KubeService {
 
 		ObjectNode labelsNode = objectMapper.createObjectNode();
 		labelsNode.put(DockerKubeConstants.APP_DEP_YML, modelNameYml);
-		metadataNode.put(DockerKubeConstants.LABELS_DEP_YML, labelsNode);
+		metadataNode.set(DockerKubeConstants.LABELS_DEP_YML, labelsNode);
 
 		kindRootNode.set(DockerKubeConstants.METADATA_DEP_YML, metadataNode);
 
@@ -846,7 +846,7 @@ public class KubeServiceImpl implements KubeService {
 		templateNode.set(DockerKubeConstants.SPEC_DEP_YML, specTempNode);
 		specNode.set(DockerKubeConstants.TEMPLATE_DEP_YML, templateNode);
 
-		kindRootNode.put(DockerKubeConstants.SPEC_DEP_YML, specNode);
+		kindRootNode.set(DockerKubeConstants.SPEC_DEP_YML, specNode);
 
 		String solutionDeployment = yamlMapper.writeValueAsString(kindRootNode);
 		logger.debug("before " + solutionDeployment);
@@ -996,7 +996,7 @@ public class KubeServiceImpl implements KubeService {
 		} else {
 			labelsNode.put(DockerKubeConstants.APP_DEP_YML, containerName);
 		}
-		metadataNode.put(DockerKubeConstants.LABELS_DEP_YML, labelsNode);
+		metadataNode.set(DockerKubeConstants.LABELS_DEP_YML, labelsNode);
 
 		kindRootNode.set(DockerKubeConstants.METADATA_DEP_YML, metadataNode);
 
@@ -1194,7 +1194,7 @@ public class KubeServiceImpl implements KubeService {
 			volumeArrNode.add(volumeNode);
 			ObjectNode hostPathNode = objectMapper.createObjectNode();
 			hostPathNode.put(DockerKubeConstants.PATH_DEP_YML, DockerKubeConstants.ACUMOSPATHLOG_DEP_YML);
-			volumeNode.put(DockerKubeConstants.HOSTPATH_DEP_YML, hostPathNode);
+			volumeNode.set(DockerKubeConstants.HOSTPATH_DEP_YML, hostPathNode);
 			specTempNode.put(DockerKubeConstants.RESTARTPOLICY_DEP_YML, DockerKubeConstants.ALWAYS_DEP_YML);
 			specTempNode.set(DockerKubeConstants.VOLUMES_DEP_YML, volumeArrNode);
 		}
@@ -1206,7 +1206,7 @@ public class KubeServiceImpl implements KubeService {
 			volumeArrNode.add(volumeNode);
 			ObjectNode hostPathNode = objectMapper.createObjectNode();
 			hostPathNode.put(DockerKubeConstants.PATH_DEP_YML, DockerKubeConstants.DATABROKER_PATHLOG_DEP_YML);
-			volumeNode.put(DockerKubeConstants.HOSTPATH_DEP_YML, hostPathNode);
+			volumeNode.set(DockerKubeConstants.HOSTPATH_DEP_YML, hostPathNode);
 			specTempNode.put(DockerKubeConstants.RESTARTPOLICY_DEP_YML, DockerKubeConstants.ALWAYS_DEP_YML);
 			specTempNode.set(DockerKubeConstants.VOLUMES_DEP_YML, volumeArrNode);
 		}
@@ -1218,7 +1218,7 @@ public class KubeServiceImpl implements KubeService {
 			volumeArrNode.add(volumeNode);
 			ObjectNode hostPathNode = objectMapper.createObjectNode();
 			hostPathNode.put(DockerKubeConstants.PATH_DEP_YML, DockerKubeConstants.PROBE_PATHLOG_DEP_YML);
-			volumeNode.put(DockerKubeConstants.HOSTPATH_DEP_YML, hostPathNode);
+			volumeNode.set(DockerKubeConstants.HOSTPATH_DEP_YML, hostPathNode);
 			specTempNode.put(DockerKubeConstants.RESTARTPOLICY_DEP_YML, DockerKubeConstants.ALWAYS_DEP_YML);
 			specTempNode.set(DockerKubeConstants.VOLUMES_DEP_YML, volumeArrNode);
 		}
@@ -1233,7 +1233,7 @@ public class KubeServiceImpl implements KubeService {
 
 				volumeNode.put(DockerKubeConstants.NAME_VOLUME_DEP_YAML, containerName);
 				pvc.put(DockerKubeConstants.CLAIM_NAME_DEP_YAML, DockerKubeConstants.PVC_NAME_YAML);
-				volumeNode.put(DockerKubeConstants.PVC_DEP_YAML, pvc);
+				volumeNode.set(DockerKubeConstants.PVC_DEP_YAML, pvc);
 				volmeMountArrayNode.add(volumeNode);
 				specTempNode.set(DockerKubeConstants.VOLUME_DEP_YAML, volmeMountArrayNode);
 			}
@@ -1245,7 +1245,7 @@ public class KubeServiceImpl implements KubeService {
 		templateNode.set(DockerKubeConstants.SPEC_DEP_YML, specTempNode);
 		specNode.set(DockerKubeConstants.TEMPLATE_DEP_YML, templateNode);
 
-		kindRootNode.put(DockerKubeConstants.SPEC_DEP_YML, specNode);
+		kindRootNode.set(DockerKubeConstants.SPEC_DEP_YML, specNode);
 
 		String solutionDeployment = yamlMapper.writeValueAsString(kindRootNode);
 		logger.debug("before " + solutionDeployment);
@@ -1285,7 +1285,7 @@ public class KubeServiceImpl implements KubeService {
 		specNode.put(DockerKubeConstants.STORAGECLASSNAME_PVC_YAML, "");
 
 		storage_ArrayNode.add(DockerKubeConstants.READ_WRITE_ONCE_PVC_YAML);
-		specNode.put(DockerKubeConstants.ACCESSMODES_PVC_YAML, storage_ArrayNode);
+		specNode.set(DockerKubeConstants.ACCESSMODES_PVC_YAML, storage_ArrayNode);
 
 		specNode.put(DockerKubeConstants.RESOURCES_PVC_YAML, "");
 
@@ -1296,7 +1296,7 @@ public class KubeServiceImpl implements KubeService {
 		specNode.set(DockerKubeConstants.RESOURCES_PVC_YAML, resourceNode);
 
 		requestNode.put(DockerKubeConstants.STORAGE_PVC_YAML, DockerKubeConstants.ONE_GI_STORAGE_PVC_YAML);
-		resourceNode.put(DockerKubeConstants.REQUESTS_PVC_YAML, requestNode);
+		resourceNode.set(DockerKubeConstants.REQUESTS_PVC_YAML, requestNode);
 
 		// specNode.put(DockerKubeConstants.REQUESTS_PVC_YAML, "");
 		// specNode.put(DockerKubeConstants.STORAGE_PVC_YAML,

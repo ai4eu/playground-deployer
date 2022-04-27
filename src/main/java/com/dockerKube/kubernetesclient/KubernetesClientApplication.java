@@ -55,4 +55,6 @@ public class KubernetesClientApplication {
 
 		SpringApplication.run(KubernetesClientApplication.class, args);
 	}
+
+
 }
