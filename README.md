@@ -56,6 +56,7 @@ The deployer iterates over all nodes:
 * if the node is a **shared folder provider**, a kubernetes persistent volume claim is generated _and the node is removed from blueprint.json_
 * for any other type, the **docker image URL** is read from **blueprint.json** 
 * one **service.yaml** and one **deployment.yaml** is created for each node
+* the **protobuf file** for the node is fetched from the database and added to the solution.zip
 * the deployer automatically adds the **orchestrator node** to the deyloyment. The orchestrator is importatnt for execution as it dispatches the messages to the nodes along the edges.
 
 Moreover, the playground deployer contains a python script to finish the local deployment.
@@ -67,5 +68,4 @@ The Playground deployer assumes a new namespace for each pipeline.
 For a single model, the docker image URL is read from the database and exactly one service.yaml and one deployment.yaml is created.
 
 The Playground deployer assumes a new namespace for each single model deployment.
-
 
