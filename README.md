@@ -59,7 +59,7 @@ The deployer iterates over all nodes:
 * the **protobuf file** for the node is fetched from the database and added to the solution.zip
 * the deployer automatically adds the **orchestrator node** to the deyloyment. The orchestrator is importatnt for execution as it dispatches the messages to the nodes along the edges.
 
-Moreover, the playground deployer contains a python script to finish the local deployment.
+Moreover, the playground deployer contains a python script to finish the local deployment. (kubernetes-client-script.py)
 
 The Playground deployer assumes a new namespace for each pipeline.
 
@@ -67,5 +67,5 @@ The Playground deployer assumes a new namespace for each pipeline.
 
 For a single model, the docker image URL is read from the database and exactly one service.yaml and one deployment.yaml is created.
 
-The Playground deployer assumes a new namespace for each single model deployment.
+The Playground deployer assumes a new namespace for each single model deployment. (kubernetes-client-script.py)
 
