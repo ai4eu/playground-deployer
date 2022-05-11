@@ -27,9 +27,12 @@ import com.dockerKube.utils.DockerKubeConstants;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +46,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.invoke.MethodHandles;
+import java.util.Base64;
 
 
 @RestController
@@ -182,7 +187,9 @@ public class KubeController {
         log.debug("logstashHost " + logstashHost);
         log.debug("logstashIp " + logstashIp);
         log.debug("logstashPort " + logstashPort);
-        try {
+        response.setHeader("Content-type", "text/plain");
+        PrintWriter body=response.getWriter();
+        try(CloseableHttpClient client = HttpClients.createDefault()){
             String solutionToolKitType = kubeService.getSolutionCode(solutionId, cmnDataUrl, cmnDataUser, cmnDataPd);
             log.debug("solutionToolKitType " + solutionToolKitType);
             if (solutionToolKitType != null && !"".equals(solutionToolKitType) && "CP".equalsIgnoreCase(solutionToolKitType)) {
@@ -196,27 +203,25 @@ public class KubeController {
                 log.debug("Single Solution Details End");
             }
 
-			// send solution to playground server
-			MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
-			CloseableHttpClient client = HttpClients.createDefault();
-			HttpPost httpPost = new HttpPost("https://playground.ki-lab.nrw");
-
-			multipartEntityBuilder.addBinaryBody("solution", solutionZip, ContentType.DEFAULT_BINARY, "solution.zip");
-            multipartEntityBuilder.addTextBody("username", user);
-
-			HttpEntity multipart = multipartEntityBuilder.build();
-			httpPost.setEntity(multipart);
-            client.execute(httpPost);
-
+            // send solution to playground server, python-json only accepts double quotes
+            String resultJson="{\"solution\": \""+ Base64.getEncoder().encodeToString(solutionZip)+"\",\"username\": \""+user+"\"}";
+			HttpPost httpPost = new HttpPost("https://playground.ki-lab.nrw/deploy_solution");
+            httpPost.setEntity(new StringEntity(resultJson));
+            httpPost.setHeader("Content-type", "application/json");
+            CloseableHttpResponse deploymentResponse = client.execute(httpPost);
+            String message = EntityUtils.toString(deploymentResponse.getEntity());
+            if(deploymentResponse.getCode()!=200) {
+                throw new RuntimeException("deployment failed with: "+deploymentResponse.getReasonPhrase()+" "+message);
+            }
             response.setStatus(200);
+            body.println("deployment to playground successful!");
         } catch (Exception e) {
-            log.error("getSolutionZip failed", e);
+            log.error("deploy to playground failed", e);
+            body.println("Error: deploy to playground failed"+e);
             response.setStatus(404);
             LogConfig.clearMDCDetails();
         }
 
-        response.setHeader("Content-Disposition", "attachment; filename=solution.zip");
-        response.getOutputStream().write(solutionZip);
         log.debug("End getSolutionZip");
     }
 }
