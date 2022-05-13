@@ -62,10 +62,10 @@ public class KubeController {
 
     private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    @RequestMapping(value = "/getSolutionZip/{solutionId}/{revisionId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public void getSolutionZip(@PathVariable("solutionId") String solutionId, @PathVariable("revisionId") String revisionId, HttpServletResponse response) throws Exception {
-        LogConfig.setEnteringMDCs("kubernetes-client", "getSolutionZip");
-        log.debug("Start getSolutionZip solutionId" + solutionId + " revisionId " + revisionId);
+    @RequestMapping(value = "/deploy/{solutionId}/{revisionId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public void deploy(@PathVariable("solutionId") String solutionId, @PathVariable("revisionId") String revisionId, HttpServletResponse response) throws Exception {
+        LogConfig.setEnteringMDCs("playground-deployer", "deploy");
+        log.debug("Start deploy solutionId" + solutionId + " revisionId " + revisionId);
         String user=SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         log.info("authenticated user: " + user);
         DeploymentBean dBean = new DeploymentBean();
@@ -219,9 +219,8 @@ public class KubeController {
             log.error("deploy to playground failed", e);
             body.println("Error: deploy to playground failed"+e);
             response.setStatus(404);
-            LogConfig.clearMDCDetails();
         }
-
-        log.debug("End getSolutionZip");
+        LogConfig.clearMDCDetails();
+        log.debug("End deploy");
     }
 }
