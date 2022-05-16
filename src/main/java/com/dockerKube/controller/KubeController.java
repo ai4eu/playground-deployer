@@ -65,7 +65,7 @@ public class KubeController {
     @RequestMapping(value = "/deploy/{solutionId}/{revisionId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public void deploy(@PathVariable("solutionId") String solutionId, @PathVariable("revisionId") String revisionId, HttpServletResponse response) throws Exception {
         LogConfig.setEnteringMDCs("playground-deployer", "deploy");
-        log.debug("Start deploy solutionId" + solutionId + " revisionId " + revisionId);
+        log.info("Start deploy solutionId" + solutionId + " revisionId " + revisionId);
         String user=SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         log.info("authenticated user: " + user);
         DeploymentBean dBean = new DeploymentBean();
@@ -205,7 +205,7 @@ public class KubeController {
 
             // send solution to playground server, python-json only accepts double quotes
             String resultJson="{\"solution\": \""+ Base64.getEncoder().encodeToString(solutionZip)+"\",\"username\": \""+user+"\"}";
-			HttpPost httpPost = new HttpPost("https://playground.ki-lab.nrw/deploy_solution");
+			HttpPost httpPost = new HttpPost(env.getProperty("playgroundDeployUrl"));
             httpPost.setEntity(new StringEntity(resultJson));
             httpPost.setHeader("Content-type", "application/json");
             CloseableHttpResponse deploymentResponse = client.execute(httpPost);

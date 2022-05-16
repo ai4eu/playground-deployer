@@ -8,7 +8,7 @@ plugins {
 
 
 group = 'org.eclipse.graphene'
-version = '3.5'
+version = '3.6'
 sourceCompatibility = '17'
 println 'build revision: '+versioning.info.full+versioning.info.dirty
 
@@ -48,7 +48,7 @@ bootJar {
 				'Built-By'       : System.properties['user.name'],
 				'Build-Timestamp': new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date()),
 				'Build-Version'  : project.version,
-				'Build-Revision' : versioning.info.full,
+				'Build-Commit' : versioning.info.full,
 				'Created-By'     : "Gradle ${gradle.gradleVersion}",
 				'Build-Jdk'      : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
 				'Build-OS'       : "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}"
@@ -72,7 +72,7 @@ import com.bmuschko.gradle.docker.tasks.image.*
 
 task createPlaygroundDockerfile(type: Dockerfile) {
 	dependsOn copyTask
-	from 'openjdk:17-slim'
+	from 'eclipse-temurin:17-jre'
 	addFile "private/kubernetes-client-script.py", "/maven/home/deploy/private/kubernetes-client-script.py"
 	addFile "deployment-readme.txt", "/maven/home/docs/deployment-readme.txt"
 	addFile "private/orchestrator_client/orchestrator_client.py", "/maven/home/deploy/private/orchestrator_client/orchestrator_client.py"
