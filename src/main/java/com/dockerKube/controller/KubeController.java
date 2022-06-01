@@ -214,8 +214,7 @@ public class KubeController {
             if(deploymentResponse.getCode()!=200) {
                 throw new RuntimeException("deployment failed with: "+deploymentResponse.getReasonPhrase()+" "+message);
             }
-            URI deployUri=new URI(env.getProperty("playgroundDeployUrl"));
-            String pipelineURI=new URI(deployUri.getScheme(), deployUri.getHost(), String.valueOf(deployUri.getPort())).toString()+message;
+            String pipelineURI=env.getProperty("playgroundDeployUrl").replace("/.*?$", message);
             log.info("redirect to: "+pipelineURI);
             response.sendRedirect(pipelineURI);
             log.info("deployment to playground successful!");
