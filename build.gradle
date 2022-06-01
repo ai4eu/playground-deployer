@@ -8,7 +8,7 @@ plugins {
 
 
 group = 'org.eclipse.graphene'
-version = '3.9'
+version = '3.10'
 sourceCompatibility = '17'
 println 'build revision: '+versioning.info.full+versioning.info.dirty
 
