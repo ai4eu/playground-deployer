@@ -48,6 +48,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.invoke.MethodHandles;
+import java.net.URI;
 import java.util.Base64;
 
 
@@ -213,8 +214,11 @@ public class KubeController {
             if(deploymentResponse.getCode()!=200) {
                 throw new RuntimeException("deployment failed with: "+deploymentResponse.getReasonPhrase()+" "+message);
             }
-            response.setStatus(200);
-            body.println("deployment to playground successful!");
+            URI deployUri=new URI(env.getProperty("playgroundDeployUrl"));
+            String pipelineURI=new URI(deployUri.getScheme(), deployUri.getHost(), String.valueOf(deployUri.getPort())).toString()+message;
+            log.info("redirect to: "+pipelineURI);
+            response.sendRedirect(pipelineURI);
+            log.info("deployment to playground successful!");
         } catch (Exception e) {
             log.error("deploy to playground failed", e);
             body.println("Error: deploy to playground failed"+e);

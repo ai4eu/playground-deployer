@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -18,9 +17,10 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
+
 
 public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -48,10 +48,12 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
         try {
             claims = getClaimsFromToken(authToken);
             logger.info("authentication successful");
-            UsernamePasswordAuthenticationToken authentication=new UsernamePasswordAuthenticationToken(claims.getSubject(), authToken, new ArrayList<>());
+            Map mlpuser=claims.get("mlpuser", Map.class);
+            UsernamePasswordAuthenticationToken authentication=new UsernamePasswordAuthenticationToken(mlpuser.get("email"), authToken, new ArrayList<>());
             SecurityContextHolder.getContext().setAuthentication(authentication);
             chain.doFilter(request, response);
         } catch (Exception e) {
+            e.printStackTrace();
             ((HttpServletResponse)response).sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
         }
     }
