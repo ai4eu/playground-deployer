@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # ===================================================================================
 # Copyright (C) 2021 Fraunhofer Gesellschaft, Peter Schueller. All rights reserved.
 # ===================================================================================
@@ -30,14 +30,13 @@ import subprocess
 import traceback
 import threading
 import grpc
-from orchestrator_pb2 import OrchestrationObservationConfiguration
 from typing import List, Optional
 
 # TODO make this configurable in an upcoming version
 DEFAULT_QUEUE_SIZE = 0
 DEFAULT_ITERATIONS = 0
 
-SRCDIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
+SRCDIR = os.path.dirname(os.path.abspath(__file__))
 
 try:
     import orchestrator_pb2
@@ -55,6 +54,7 @@ except:
     import orchestrator_pb2_grpc
     logging.info("successfully imported orchestrator_pb2  and orchestrator_pb2_grpc after compiling!")
 
+from orchestrator_pb2 import OrchestrationObservationConfiguration
 
 class SolutionConfiguration:
     blueprint_path: str
@@ -251,7 +251,11 @@ def main():
         ap.print_help()
         return -1
 
-    sconfig = load_solution_configuration(args.basepath)
+    basepath = args.basepath
+    if basepath is None:
+        basepath = os.getcwd()
+
+    sconfig = load_solution_configuration(basepath)
     params = sconfig.dict()
     params.update({'endpoint': endpoint, 'message_display': args.messages, 'observer_namefilter': args.filtername, 'observer_componentfilter': args.filtercomponent})
     rconfig = RunConfiguration(**params)

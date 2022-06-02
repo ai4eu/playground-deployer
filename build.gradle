@@ -8,7 +8,7 @@ plugins {
 
 
 group = 'org.eclipse.graphene'
-version = '3.10'
+version = '3.11'
 sourceCompatibility = '17'
 println 'build revision: '+versioning.info.full+versioning.info.dirty
 
@@ -76,6 +76,7 @@ task createPlaygroundDockerfile(type: Dockerfile) {
 	addFile "private/kubernetes-client-script.py", "/maven/home/deploy/private/kubernetes-client-script.py"
 	addFile "deployment-readme.txt", "/maven/home/docs/deployment-readme.txt"
 	addFile "private/orchestrator_client/orchestrator_client.py", "/maven/home/deploy/private/orchestrator_client/orchestrator_client.py"
+	addFile "private/orchestrator_client/status_client.py", "/maven/home/deploy/private/orchestrator_client/status_client.py"
 	addFile "private/orchestrator_client/orchestrator_pb2_grpc.py", "/maven/home/deploy/private/orchestrator_client/orchestrator_pb2_grpc.py"
 	addFile	"private/orchestrator_client/orchestrator_pb2.py", "/maven/home/deploy/private/orchestrator_client/orchestrator_pb2.py"
 	addFile	"private/protobuf/orchestrator.proto", "/maven/home/deploy/private/protobuf/orchestrator.proto"

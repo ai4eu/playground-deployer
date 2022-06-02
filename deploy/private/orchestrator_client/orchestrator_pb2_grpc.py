@@ -29,6 +29,11 @@ class OrchestratorStub(object):
                 request_serializer=orchestrator__pb2.RunLabel.SerializeToString,
                 response_deserializer=orchestrator__pb2.OrchestrationStatus.FromString,
                 )
+        self.get_status = channel.unary_unary(
+                '/Orchestrator/get_status',
+                request_serializer=orchestrator__pb2.RunLabel.SerializeToString,
+                response_deserializer=orchestrator__pb2.OrchestrationStatus.FromString,
+                )
 
 
 class OrchestratorServicer(object):
@@ -52,6 +57,12 @@ class OrchestratorServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def get_status(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_OrchestratorServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -67,6 +78,11 @@ def add_OrchestratorServicer_to_server(servicer, server):
             ),
             'run': grpc.unary_unary_rpc_method_handler(
                     servicer.run,
+                    request_deserializer=orchestrator__pb2.RunLabel.FromString,
+                    response_serializer=orchestrator__pb2.OrchestrationStatus.SerializeToString,
+            ),
+            'get_status': grpc.unary_unary_rpc_method_handler(
+                    servicer.get_status,
                     request_deserializer=orchestrator__pb2.RunLabel.FromString,
                     response_serializer=orchestrator__pb2.OrchestrationStatus.SerializeToString,
             ),
@@ -126,6 +142,23 @@ class Orchestrator(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Orchestrator/run',
+            orchestrator__pb2.RunLabel.SerializeToString,
+            orchestrator__pb2.OrchestrationStatus.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def get_status(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Orchestrator/get_status',
             orchestrator__pb2.RunLabel.SerializeToString,
             orchestrator__pb2.OrchestrationStatus.FromString,
             options, channel_credentials,
