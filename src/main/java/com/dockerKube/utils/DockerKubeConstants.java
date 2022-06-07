@@ -228,6 +228,8 @@ public class DockerKubeConstants {
 	public static final String KUBE_PATH_CLIENT_SCRIPT="deploy/private/kubernetes-client-script.py";
 	public static final String KUBE_ORCHESTRATOR_SCRIPT="orchestrator_client/orchestrator_client.py";
 	public static final String KUBE_PATH_ORCHESTRATOR_SCRIPT="deploy/private/orchestrator_client/orchestrator_client.py";
+	public static final String KUBE_ORCHESTRATOR_STATUS_SCRIPT="orchestrator_client/status_client.py";
+	public static final String KUBE_PATH_ORCHESTRATOR_STATUS_SCRIPT="deploy/private/orchestrator_client/status_client.py";
 	public static final String KUBE_ORCHESTRATOR_PB2_GRPC_SCRIPT="orchestrator_client/orchestrator_pb2_grpc.py";
 	public static final String KUBE_PATH_ORCHESTRATOR_PB2_GRPC_SCRIPT="deploy/private/orchestrator_client/orchestrator_pb2_grpc.py";
 	public static final String KUBE_ORCHESTRATOR_PB2_SCRIPT="orchestrator_client/orchestrator_pb2.py";

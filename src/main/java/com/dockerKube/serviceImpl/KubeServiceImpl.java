@@ -577,6 +577,7 @@ public class KubeServiceImpl implements KubeService {
 			};
 
 			addToOutput.accept(DockerKubeConstants.KUBE_PATH_ORCHESTRATOR_SCRIPT, DockerKubeConstants.KUBE_ORCHESTRATOR_SCRIPT);
+			addToOutput.accept(DockerKubeConstants.KUBE_PATH_ORCHESTRATOR_STATUS_SCRIPT, DockerKubeConstants.KUBE_ORCHESTRATOR_STATUS_SCRIPT);
 			addToOutput.accept(DockerKubeConstants.KUBE_PATH_ORCHESTRATOR_PB2_SCRIPT, DockerKubeConstants.KUBE_ORCHESTRATOR_PB2_SCRIPT);
 			addToOutput.accept(DockerKubeConstants.KUBE_PATH_ORCHESTRATOR_PB2_GRPC_SCRIPT, DockerKubeConstants.KUBE_ORCHESTRATOR_PB2_GRPC_SCRIPT);
 			addToOutput.accept(DockerKubeConstants.KUBE_PATH_CLIENT_SCRIPT, DockerKubeConstants.KUBE_CLIENT_SCRIPT);
