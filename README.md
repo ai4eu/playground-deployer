@@ -63,6 +63,8 @@ Moreover, the playground deployer contains a python script to finish the local d
 
 The Playground deployer assumes a new namespace for each pipeline.
 
+**Important:** The persistent volume for a shared folder is expected to have accessMode **ReadWriteMany** because all node of a pipeline need to have the same level of access
+
 ## Processing for a single model
 
 For a single model, the docker image URL is read from the database and exactly one service.yaml and one deployment.yaml is created.

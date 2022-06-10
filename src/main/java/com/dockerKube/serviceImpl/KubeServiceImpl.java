@@ -1285,7 +1285,7 @@ public class KubeServiceImpl implements KubeService {
 		ArrayNode storage_ArrayNode = specNode.arrayNode();
 		specNode.put(DockerKubeConstants.STORAGECLASSNAME_PVC_YAML, "");
 
-		storage_ArrayNode.add(DockerKubeConstants.READ_WRITE_ONCE_PVC_YAML);
+		storage_ArrayNode.add("ReadWriteMany");
 		specNode.set(DockerKubeConstants.ACCESSMODES_PVC_YAML, storage_ArrayNode);
 
 		specNode.put(DockerKubeConstants.RESOURCES_PVC_YAML, "");
