@@ -192,16 +192,16 @@ public class KubeController {
         PrintWriter body=response.getWriter();
         try(CloseableHttpClient client = HttpClients.createDefault()){
             String solutionToolKitType = kubeService.getSolutionCode(solutionId, cmnDataUrl, cmnDataUser, cmnDataPd);
-            log.debug("solutionToolKitType " + solutionToolKitType);
+            log.info("solutionToolKitType " + solutionToolKitType);
             if (solutionToolKitType != null && !"".equals(solutionToolKitType) && "CP".equalsIgnoreCase(solutionToolKitType)) {
-                log.debug("Composite Solution Details Start");
+                log.info("Composite Solution Details Start");
                 solutionZip = kubeService.compositeSolutionDetails(dBean, solutionToolKitType);
-                log.debug("Composite Solution Deployment End");
+                log.info("Composite Solution Deployment End");
             } else {
-                log.debug("Single Solution Details Start");
+                log.info("Single Solution Details Start");
                 String imageTag = kubeService.getSingleImageData(solutionId, revisionId, cmnDataUrl, cmnDataUser, cmnDataPd);
                 solutionZip = kubeService.singleSolutionDetails(dBean, imageTag, singleModelPort, solutionToolKitType);
-                log.debug("Single Solution Details End");
+                log.info("Single Solution Details End");
             }
 
             // send solution to playground server, python-json only accepts double quotes

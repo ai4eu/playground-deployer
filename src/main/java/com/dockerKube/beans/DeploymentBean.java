@@ -68,9 +68,11 @@ public class DeploymentBean {
 	private String logstashIp;
 	private String logstashPort;
 	private Map<String, String> solutionRevisionIdMap;
-	
-	
-	
+	private String solutionName;
+
+
+	public String getSolutionName() { return solutionName; }
+	public void setSolutionName(String solutionName) { this.solutionName = solutionName; }
 	public String getLogstashHost() {
 		return logstashHost;
 	}

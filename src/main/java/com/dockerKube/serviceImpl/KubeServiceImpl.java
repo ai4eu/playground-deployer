@@ -1348,6 +1348,10 @@ public class KubeServiceImpl implements KubeService {
 				logger.debug(DockerKubeConstants.KUBE_DEPLOYMENT_FILE + "   " + bOutput);
 			}
 
+			bOutput = new ByteArrayOutputStream(12);
+			bOutput.write(dBean.getSolutionName().getBytes());
+			hmap.put("modelname.txt", bOutput);
+
 			if (dBean.getSolutionYml() != null && !"".equals(dBean.getSolutionYml())) {
 				bOutput = new ByteArrayOutputStream(12);
 				bOutput.write(dBean.getSolutionYml().getBytes());
@@ -1405,6 +1409,7 @@ public class KubeServiceImpl implements KubeService {
 		if (containerBeans != null) {
 			CommonDataServiceRestClientImpl cmnDataService = getClient(dBean.getCmnDataUrl(), dBean.getCmnDataUser(),
 					dBean.getCmnDataPd());
+			dBean.setSolutionName(cmnDataService.getSolution(dBean.getSolutionId()).getName());
 			for (ContainerBean containerBean : containerBeans) {
 				String image = containerBean.getImage();
 				String solutionId = null;
