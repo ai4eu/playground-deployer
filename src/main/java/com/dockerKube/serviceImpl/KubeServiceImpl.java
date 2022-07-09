@@ -1409,7 +1409,9 @@ public class KubeServiceImpl implements KubeService {
 		if (containerBeans != null) {
 			CommonDataServiceRestClientImpl cmnDataService = getClient(dBean.getCmnDataUrl(), dBean.getCmnDataUser(),
 					dBean.getCmnDataPd());
-			dBean.setSolutionName(cmnDataService.getSolution(dBean.getSolutionId()).getName());
+			MLPSolution solution=cmnDataService.getSolution(dBean.getSolutionId());
+			logger.info("solution name: "+solution.getName()+" - solutionId: "+dBean.getSolutionId());
+			dBean.setSolutionName(solution.getName());
 			for (ContainerBean containerBean : containerBeans) {
 				String image = containerBean.getImage();
 				String solutionId = null;
