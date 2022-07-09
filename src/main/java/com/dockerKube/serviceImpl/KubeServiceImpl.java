@@ -129,6 +129,12 @@ public class KubeServiceImpl implements KubeService {
 		getSolutionRevisionMap(dBean, solutionToolKitType);
 		byte[] solutionZip = null;
 
+		CommonDataServiceRestClientImpl cmnDataService = getClient(dBean.getCmnDataUrl(), dBean.getCmnDataUser(), dBean.getCmnDataPd());
+		MLPSolution solution=cmnDataService.getSolution(dBean.getSolutionId());
+		logger.info("solution name: "+solution.getName()+" - solutionId: "+dBean.getSolutionId());
+		dBean.setSolutionName(solution.getName());
+
+
 		List<ContainerBean> contList = null;
 		ParseJSON parseJson = new ParseJSON();
 		/** Blueprint.json **/
@@ -1409,9 +1415,6 @@ public class KubeServiceImpl implements KubeService {
 		if (containerBeans != null) {
 			CommonDataServiceRestClientImpl cmnDataService = getClient(dBean.getCmnDataUrl(), dBean.getCmnDataUser(),
 					dBean.getCmnDataPd());
-			MLPSolution solution=cmnDataService.getSolution(dBean.getSolutionId());
-			logger.info("solution name: "+solution.getName()+" - solutionId: "+dBean.getSolutionId());
-			dBean.setSolutionName(solution.getName());
 			for (ContainerBean containerBean : containerBeans) {
 				String image = containerBean.getImage();
 				String solutionId = null;
